@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # =================================
-# sudo ./install
+# sudo ./patch
 # =================================
 if [ "$EUID" -ne 0 ]
-  then printf "Please run install with sudo!  sudo ./install "
+  then printf "Please run install with sudo!  sudo ./patch"
   exit
 fi
 
@@ -11,15 +11,6 @@ fi
 cd /
 
 echo
-
-
-
-# turn off screen blanking
-#printf "[Seat:*]"
-#printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
-
-
-
 # configure cron for boot to run as pi
 # change to pi user for the following EOF
 sudo -i -u pi bash << EOF
