@@ -3,7 +3,7 @@
 # sudo ./patch
 # =================================
 if [ "$EUID" -ne 0 ]
-  then printf "Please run install with sudo!  sudo ./patch"
+  then printf "Please run patch with sudo!  sudo ./patch"
   exit
 fi
 
@@ -29,6 +29,9 @@ sudo -i -u pi bash << EOF
 
     # Every morning at 4am reboot
     echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
+
+    # Every morning at 4am reboot
+    echo "59 8 * * * sudo /sbin/shutdown -r now" >> mycron
 
     # install new cron file
     crontab mycron
