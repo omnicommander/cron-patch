@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# =================================
+# sudo ./install
+# =================================
+if [ "$EUID" -ne 0 ]
+  then printf "Please run install with sudo!  sudo ./install "
+  exit
+fi
+
+# go to root directory
+cd /
+
+echo
+
+
+
+# turn off screen blanking
+#printf "[Seat:*]"
+#printf "xserver-command=X -s 0 dpms" >> /etc/lightdm/lightdm.conf
+
+
+
+# configure cron for boot to run as pi
+# change to pi user for the following EOF
+sudo -i -u pi bash << EOF
+    # export current crontab to mycron
+    crontab -l > mycron_old
+
+    # write new mycron --
+    # Fetch on boot timestamp to last_cron
+    echo "#@reboot /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" > mycron
+
+    # Every 6hrs fetch and timestamp to last_cron
+    echo "#1 */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+
+    # Every 15min push heartbeat and timestamp to last_cron
+    echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+
+    # Every morning at 4am reboot
+    echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
+
+    # install new cron file
+    crontab mycron
+    rm mycron
+EOF
+
+# exit out
+printf "\nWell done, young COMMANDO!!\n"
+printf "Device Update Is Now Complete\n"
+
+
+exit 0;
