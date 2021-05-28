@@ -32,9 +32,9 @@ sudo sh -c 'cat <<EOF > /var/spool/cron/crontabs/root
 #
 # m h  dom mon dow   command
 
-*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
-59 3 * * * sudo /sbin/shutdown -r now" >> mycron
-00 11 * * * sudo /sbin/shutdown -r now" >> mycron
+#1 */6 * * * /home/pi/OC-DigitalSignage/fetch && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron
+*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron
+10 11 * * * sudo /sbin/shutdown -r now && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron
 EOF'
 sudo /etc/init.d/cron restart
 # exit out
