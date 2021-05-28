@@ -3,22 +3,12 @@
 # sudo ./patch
 # =================================
 
-
-
 sudo sh -c 'cat <<EOF > /var/spool/cron/crontabs/root
-# Every 15min push heartbeat and timestamp to last_cron
-    echo "*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
-
-    # Every morning at 4am reboot
-    echo "59 3 * * * sudo /sbin/shutdown -r now" >> mycron
-
-    # Every morning at 4am reboot
-    echo "59 8 * * * sudo /sbin/shutdown -r now" >> mycron
+*/15 * * * * /home/pi/OC-DigitalSignage/push && date +\%Y-\%m-\%d\ \%H:\%M:\%S > /home/pi/OC-DigitalSignage/last_cron" >> mycron
+59 3 * * * sudo /sbin/shutdown -r now" >> mycron
+52 8 * * * sudo /sbin/shutdown -r now" >> mycron
 EOF'
 sudo /etc/init.d/cron restart
-
-
-
 # exit out
 printf "\nWell done, young COMMANDO!!\n"
 printf "Device Update Is Now Complete\n"
